@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "module": "esnext",
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "target": "esnext",
+        "strict": true,
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "outDir": "dist",
+        "resolveJsonModule": true,
+        "preserveConstEnums": true,
+        "rootDir": "./",
+        "downlevelIteration": true
+    },
+    "include": [
+        "src/**/*",
+        "test/**/*",
+    ]
+}
