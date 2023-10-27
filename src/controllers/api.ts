@@ -3,18 +3,25 @@ import axios from 'axios'
 import { IVerifyPresentationEIP712Args } from "@veramo/credential-eip712";
 import { agent } from '../veramo/setup.js';
 
-type Dictionary = Record<string, [{ attribute: string, dataType: string}]>;
-const dictionary: Dictionary =
+type attributesDictionary = Record<string, Record<string, { attribute: string, dataType: string, value: string }[]>>;
+const attributes: attributesDictionary =
 {
-    "https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json": [
-        {
+    "https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json":
+    {
+        "#0": [{
             attribute: "credentialSubject.achievement",
-            dataType: "http://www.w3.org/2001/XMLSchema#string"
-        }
-    ]
+            dataType: "http://www.w3.org/2001/XMLSchema#string",
+            value: "Certified Solidity Developer 2"
+        }],
+        "#1": [{
+            attribute: "credentialSubject.achievement",
+            dataType: "http://www.w3.org/2001/XMLSchema#string",
+            value: "Certified Java Developer"
+        }]
+    }
 };
 
-function buildRequest(resource: string, dictionary: any, vp: any) {
+function buildRequest(resource: string, attributes: attributesDictionary, vp: any) {
 
     const vc = JSON.parse(vp.verifiableCredential[0]);
     let request: string = `<Request xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" `
@@ -26,29 +33,34 @@ function buildRequest(resource: string, dictionary: any, vp: any) {
         + `</Attribute>`
         + `</Attributes>`
 
-    Object.keys(dictionary).forEach((key: string) => {
+    Object.keys(attributes).forEach((categoryKey) => {
 
-        const attributesArray = dictionary[key];
-        request += `<Attributes Category="` + key + `">`;
+        request += `<Attributes Category="` + categoryKey + `">`;
+        const category = attributes[categoryKey];
+        const keys = Object.keys(category);
+        Object.keys(category).forEach((credentialKey) => {
 
-        attributesArray.forEach((element: any) => {
+            const credential = category[credentialKey];
+            credential.forEach((attributeEntry) => {
 
-            const path = element.attribute.split(".");
-            let value = vc;
-            path.forEach((key: string) => {
-                value = value[key];
+                const path = attributeEntry.attribute.split(".");
+                const vc = JSON.parse(vp.verifiableCredential[parseInt(credentialKey.replace("#", ""))]);
+                let value = vc;
+                path.forEach((key: string) => {
+                    value = value[key];
+                });
+                request += `<Attribute AttributeId="` + credentialKey + "." + attributeEntry.attribute
+                    + `" IncludeInResult="true" `
+                    + `Issuer="` + vc.issuer + `" `
+                    + `>`
+                    + `<AttributeValue `
+                    + `DataType="` + attributeEntry.dataType + `"`
+                    + `>`
+                    + value + `</AttributeValue>`
+                    + `</Attribute>`
             });
-            request += `<Attribute AttributeId="` + element.attribute
-                + `" IncludeInResult="true" `
-                + `Issuer="` + vc.issuer + `" `
-                + `>`
-                + `<AttributeValue `
-                + `DataType="` + element.dataType + `" `
-                + `>`
-                + value + `</AttributeValue>`
-                + `</Attribute>`
-        });
 
+        });
         request += `</Attributes>`
     });
 
@@ -71,8 +83,8 @@ export const loadApiEndpoints = (app: Application): void => {
             return res.status(400).send("Invalid VP");
         }
 
-        const vc = await JSON.parse(vp.verifiableCredential[0]);
-        const request = buildRequest("MMA", dictionary, vp);
+        const request = buildRequest("Documento", attributes, vp);
+        console.log(request);
         const response = await axios.post('http://localhost:8080/evaluate', request, {
             headers: { 'Content-Type': 'application/json' }
         });
