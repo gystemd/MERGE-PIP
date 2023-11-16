@@ -3,27 +3,34 @@ import axios from 'axios'
 import { IVerifyPresentationEIP712Args } from "@veramo/credential-eip712";
 import { agent } from '../veramo/setup.js';
 
-type attributesDictionary = Record<string, Record<string, { attribute: string, dataType: string, value: string }[]>>;
-const attributes: attributesDictionary =
+type attributesList = Record<string, Record<string, { attribute: string, dataType: string, value: string }[]>>;
+type resourcesList = Record<string, attributesList>;
+
+const resources: resourcesList =
 {
-    "https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json":
-    {
-        "#0": [{
-            attribute: "credentialSubject.achievement",
-            dataType: "http://www.w3.org/2001/XMLSchema#string",
-            value: "Certified Solidity Developer 2"
-        }],
-        "#1": [{
-            attribute: "credentialSubject.achievement",
-            dataType: "http://www.w3.org/2001/XMLSchema#string",
-            value: "Certified Java Developer"
-        }]
+    "research-paper-computer-science": {
+        "https://www.npoint.io/docs/b7e2e485241a04f89fdc":
+        {
+            "#0": [
+                {
+                    attribute: "credentialSubject.degreeLevel",
+                    dataType: "http://www.w3.org/2001/XMLSchema#string",
+                    value: "PhD"
+                },
+                {
+                    attribute: "credentialSubject.degreeField",
+                    dataType: "http://www.w3.org/2001/XMLSchema#string",
+                    value: "Computer Science"
+                }
+            ]
+        }
     }
 };
 
-function buildRequest(resource: string, attributes: attributesDictionary, vp: any) {
 
-    const vc = JSON.parse(vp.verifiableCredential[0]);
+function buildRequest(resource: string, vp: any) {
+    const attributes: attributesList = resources[resource];
+    console.log(attributes);
     let request: string = `<Request xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" `
         + `CombinedDecision="false" `
         + `ReturnPolicyIdList="true">`
@@ -73,7 +80,7 @@ export const loadApiEndpoints = (app: Application): void => {
 
         res.header("Access-Control-Allow-Origin", "*");
         const vp: any = req.body.vp; // assuming any type for now
-
+        const resource: string = req.body.resource;
         const args: IVerifyPresentationEIP712Args = {
             presentation: vp
         }
@@ -83,7 +90,7 @@ export const loadApiEndpoints = (app: Application): void => {
             return res.status(400).send("Invalid VP");
         }
 
-        const request = buildRequest("Documento", attributes, vp);
+        const request = buildRequest(resource, vp);
         console.log(request);
         const response = await axios.post('http://localhost:8080/evaluate', request, {
             headers: { 'Content-Type': 'application/json' }
