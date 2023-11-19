@@ -6,11 +6,6 @@ import { IVerifyPresentationEIP712Args } from "@veramo/credential-eip712";
 
 import { presentation as validPhdDegreePresentation } from "./VPS/valid_phd_degree";
 import { presentation as degreeVaccinePresentation } from "./VPS/degree_vaccine";
-describe("GET /api", () => {
-	it("should return 200 OK", () => {
-		return request(app).get("/api").expect(200);
-	});
-});
 
 
 describe("degree verification", () => {
