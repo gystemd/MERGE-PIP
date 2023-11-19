@@ -10,7 +10,7 @@
         "outDir": "dist",
         "resolveJsonModule": true,
         "preserveConstEnums": true,
-        "rootDir": "./",
+        // "rootDir": "./",
         "downlevelIteration": true
     },
     "include": [
