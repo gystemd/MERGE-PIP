@@ -9,7 +9,7 @@ type resourcesList = Record<string, attributesList>;
 const resources: resourcesList =
 {
     "research-paper-computer-science": {
-        "https://www.npoint.io/docs/b7e2e485241a04f89fdc":
+        "https://api.npoint.io/92e56cd3a26b31bfcd14":
         {
             "#0": [
                 {
@@ -26,7 +26,7 @@ const resources: resourcesList =
         }
     },
     "course-material": {
-        "https://www.npoint.io/docs/b7e2e485241a04f89fdc":
+        "https://api.npoint.io/92e56cd3a26b31bfcd14":
         {
             "#0": [{
                 attribute: "credentialSubject.degreeLevel",
@@ -36,7 +36,7 @@ const resources: resourcesList =
         }
     },
     "conference": {
-        "https://www.npoint.io/docs/b7e2e485241a04f89fdc": // degree credential
+        "https://api.npoint.io/92e56cd3a26b31bfcd14": // degree credential
         {
             "#0": [{
                 attribute: "credentialSubject.degreeLevel",
