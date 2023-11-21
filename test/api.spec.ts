@@ -43,9 +43,9 @@ describe("test access to conference", () => {
     });
 });
 
-describe("test access to secret document", () => {
+describe("test access to coding course", () => {
     it("should return 200", async () => {
-        const resource = "secret.document";
+        const resource = "coding.course";
         const payload = {
             vp: devVP,
             resource: resource

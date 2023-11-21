@@ -53,7 +53,7 @@ const resources: resourcesList =
             }]
         }
     },
-    "secret.document": {
+    "coding.course": {
         "https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json":
         {
             "#0": [{
@@ -73,7 +73,6 @@ const resources: resourcesList =
 
 function buildRequest(resource: string, vp: any) {
     const attributes: attributesList = resources[resource];
-    console.log(attributes);
     let request: string = `<Request xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" `
         + `CombinedDecision="false" `
         + `ReturnPolicyIdList="true">`
@@ -120,7 +119,6 @@ function buildRequest(resource: string, vp: any) {
 
 export const loadApiEndpoints = (app: Application): void => {
     app.post("/send", async (req: Request, res: Response) => {
-
         res.header("Access-Control-Allow-Origin", "*");
         const vp: any = req.body.vp; // assuming any type for now
         const resource: string = req.body.resource;
@@ -130,11 +128,16 @@ export const loadApiEndpoints = (app: Application): void => {
 
         const result = await agent.verifyPresentation(args);
         if (!result.verified) {
+            console.log("VP not verified");
             return res.status(400).send("Invalid VP");
         }
 
+        if(!resources[resource]) {
+            return res.status(400).send("Invalid resource");
+        }
+
         const request = buildRequest(resource, vp);
-        console.log(request);
+        console.log(resource);
         const response = await axios.post('http://localhost:8080/evaluate', request, {
             headers: { 'Content-Type': 'application/json' }
         });
