@@ -132,16 +132,17 @@ export const loadApiEndpoints = (app: Application): void => {
             return res.status(400).send("Invalid VP");
         }
 
+        console.log("VP verified for resource: " + resource);
         if(!resources[resource]) {
             return res.status(400).send("Invalid resource");
         }
 
         const request = buildRequest(resource, vp);
-        console.log(resource);
         const response = await axios.post('http://localhost:8080/evaluate', request, {
             headers: { 'Content-Type': 'application/json' }
         });
-
+        requestCount++;
+        console.log(requestCount);
         return res.status(200).send({ message: "VP verified", authorized: response.data });
     });
 
