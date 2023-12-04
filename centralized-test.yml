@@ -1,0 +1,19 @@
+
+config:
+  target: 'http://localhost:3001'
+  phases:
+    - duration: 5
+      arrivalRate: 5
+scenarios:
+  - flow:
+    - loop:
+      - post:
+          url: /sendCentralized
+          body: |
+                {
+                  "subjectId": "1",
+                  "resource": "research-paper-computer-science-centralized"
+                }
+          headers:
+            content-type: application/json
+      count: 10 
