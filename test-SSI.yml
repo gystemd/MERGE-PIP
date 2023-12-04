@@ -1,8 +1,8 @@
 config:
   target: "http://localhost:3001"
   phases:
-    - duration: 5
-      arrivalRate: 5
+    - duration: 30
+      arrivalRate: 7
 scenarios:
   - flow:
       - loop:
@@ -98,8 +98,6 @@ scenarios:
                 }
               headers:
                 content-type: application/json
-            count: 10
-
           - post: # resource: course-material
               url: /send
               body: |
@@ -192,8 +190,6 @@ scenarios:
                 }
               headers:
                 content-type: application/json
-            count: 10
-
           - post: # resource: conference
               url: /send
               body: |
@@ -287,4 +283,4 @@ scenarios:
                 }
               headers:
                 content-type: application/json
-            count: 10
+        count: 1

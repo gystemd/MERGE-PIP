@@ -6,6 +6,7 @@ import { agent } from '../veramo/setup.js';
 type attributesList = Record<string, Record<string, { attribute: string, dataType: string, value: string }[]>>;
 type resourcesList = Record<string, attributesList>;
 let requestCount = 0;
+let failedRequestCount = 0;
 const resources: resourcesList =
 {
     "research-paper-computer-science": {
@@ -127,18 +128,27 @@ export const loadApiEndpoints = (app: Application): void => {
         }
 
         const result = await agent.verifyPresentation(args);
+        const oldRequestNumber = requestCount;
         if (!result.verified) {
             console.log("VP not verified");
+            console.log(result);
+            failedRequestCount++;
+            console.log("number of failures" + failedRequestCount);
+            console.log("vp: " + vp);
             return res.status(400).send("Invalid VP");
         }
-
-        console.log("VP verified for resource: " + resource);
-        if(!resources[resource]) {
+        console.log("VP verified for resource: " + resource + "; old request count: " + oldRequestNumber + "; new request count: " + requestCount);
+        if (!resources[resource]) {
             return res.status(400).send("Invalid resource");
         }
 
         const request = buildRequest(resource, vp);
+        const options = {
+            // other options
+            timeout: 9000, // in milliseconds
+        };
         const response = await axios.post('http://localhost:8080/evaluate', request, {
+            timeout: 9000,
             headers: { 'Content-Type': 'application/json' }
         });
         requestCount++;
