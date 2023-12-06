@@ -18,6 +18,7 @@ function buildRequest(resource: string, vp: any) {
 }
 
 export const loadApiEndpoints = (app: Application): void => {
+
     app.post("/send", async (req: Request, res: Response) => {
         res.header("Access-Control-Allow-Origin", "*");
         const vp: any = req.body.vp; // assuming any type for now
@@ -36,4 +37,17 @@ export const loadApiEndpoints = (app: Application): void => {
         const response = await axios.post('http://localhost:8080/evaluate', request, { headers: { 'Content-Type': 'application/json' } });
         return res.status(200).send({ message: "VP verified", authorized: response.data });
     });
+
+    app.post("/verify", async (req: Request, res: Response) => {
+        res.header("Access-Control-Allow-Origin", "*");
+        const vp: any = req.body.vp; // assuming any type for now
+        const verified = await verifyPresentation(vp);
+        if (!verified) {
+            console.log("VP not verified");
+            return res.status(400).send("Invalid VP");
+        }
+        console.log("VP verified");
+        return res.status(200).send({ message: "VP verified" });
+    });
+
 };

@@ -7,7 +7,7 @@ scenarios:
   - flow:
       - loop:
           - post: # resource: research-paper-computer-science
-              url: /send
+              url: /verify
               body: |
                 {
                   "vp": {
@@ -99,7 +99,7 @@ scenarios:
               headers:
                 content-type: application/json
           - post: # resource: course-material
-              url: /send
+              url: /verify
               body: |
                 {
                   "vp": {
@@ -191,7 +191,7 @@ scenarios:
               headers:
                 content-type: application/json
           - post: # resource: conference
-              url: /send
+              url: /verify
               body: |
                 {
                   "vp": {

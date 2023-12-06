@@ -24,4 +24,4 @@ yarn-error.log*
 .env
 
 test-run-*
-artillery-runs/*
+artillery-tests/output/*
