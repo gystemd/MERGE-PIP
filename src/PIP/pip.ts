@@ -12,6 +12,8 @@ export const verifyPresentation = async (vp: any) => {
 
     const result = await agent.verifyPresentation(args);
     if (!result.verified) {
+        console.log(result);
+        console.log("VP not verified");
         return false;
     }
 

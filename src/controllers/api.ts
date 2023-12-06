@@ -2,6 +2,8 @@ import { Application, Request, Response } from "express";
 import axios from 'axios'
 import { getAttributes, verifyPresentation } from "../PIP/pip.js";
 import { resources } from "../db.js";
+import fs from 'fs';
+import path from "path";
 
 function buildRequest(resource: string, vp: any) {
     let request: string = `<Request xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" `
@@ -17,6 +19,14 @@ function buildRequest(resource: string, vp: any) {
     return request;
 }
 
+function updateData(val: any, fileName:string){
+    const data = fs.readFileSync(fileName, 'utf8');
+    const json = JSON.parse(data.toString());
+    const array_measurements = json.measurements;
+    array_measurements.push(val);
+    fs.writeFileSync(fileName, JSON.stringify(json), 'utf8');
+}
+
 export const loadApiEndpoints = (app: Application): void => {
 
     app.post("/send", async (req: Request, res: Response) => {
@@ -27,14 +37,25 @@ export const loadApiEndpoints = (app: Application): void => {
         if (!resources[resource]) {
             return res.status(400).send("Invalid resource");
         }
-
+        const begin = Date.now();
         const verified = await verifyPresentation(vp);
         if (!verified) {
             console.log("VP not verified");
             return res.status(400).send("Invalid VP");
         }
         const request = buildRequest(resource, vp);
+        const end = Date.now();
+        const time = end - begin;
+        console.log("PIP executed in " + time + "ms");
+        updateData(time, "measurements/pip.json");
+
+        const begin2 = Date.now();
         const response = await axios.post('http://localhost:8080/evaluate', request, { headers: { 'Content-Type': 'application/json' } });
+        const end2 = Date.now();
+        const time2 = end2 - begin2;
+        console.log("PDP executed in " + time2 + "ms");
+        updateData(time2, "measurements/pdp.json");
+
         return res.status(200).send({ message: "VP verified", authorized: response.data });
     });
 

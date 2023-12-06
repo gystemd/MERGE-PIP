@@ -1,0 +1,48 @@
+{
+  "type": [
+    "VerifiableCredential",
+    "MascaUserCredential"
+  ],
+  "credentialSubject": {
+    "attribute0": "value0",
+    "attribute1": "value1",
+    "attribute2": "value2",
+    "attribute3": "value3",
+    "attribute4": "value4",
+    "attribute5": "value5",
+    "attribute6": "value6",
+    "attribute7": "value7",
+    "attribute8": "value8",
+    "attribute9": "value9",
+    "attribute10": "value10",
+    "attribute11": "value11",
+    "attribute12": "value12",
+    "attribute13": "value13",
+    "attribute14": "value14",
+    "attribute15": "value15",
+    "attribute16": "value16",
+    "attribute17": "value17",
+    "attribute18": "value18",
+    "attribute19": "value19",
+    "attribute20": "value20",
+    "attribute21": "value21",
+    "attribute22": "value22",
+    "attribute23": "value23",
+    "attribute24": "value24",
+    "attribute25": "value25",
+    "attribute26": "value26",
+    "attribute27": "value27",
+    "attribute28": "value28",
+    "attribute29": "value29",
+    "attribute30": "value30",
+    "attribute31": "value31"
+  },
+  "credentialSchema": {
+    "id": "test-schema",
+    "type": "JsonSchemaValidator2018"
+  },
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/ld-context.json"
+  ]
+}
