@@ -2,6 +2,7 @@ import express from "express";
 import path from "path";
 
 import { loadApiEndpoints } from "./controllers/api.js";
+import { loadCentralizedApiEndpoints } from "./controllers/centralized.js";
 import { fileURLToPath } from "url";
 
 // Create Express server
@@ -19,5 +20,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "../public"), { maxAge: 31557600000 }));
 
 loadApiEndpoints(app);
+loadCentralizedApiEndpoints(app);
 
 export default app;
