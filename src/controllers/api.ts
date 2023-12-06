@@ -36,36 +36,47 @@ function clearData(fileName:string){
 
 export const loadApiEndpoints = (app: Application): void => {
 
-    clearData("measurements/pip.json");
     clearData("measurements/pdp.json");
+    clearData("measurements/pip-verification.json");
+    clearData("measurements/pip-extraction.json");
+    clearData("measurements/global.json");
 
     app.post("/send", async (req: Request, res: Response) => {
+        const begin0 = Date.now();
+
         res.header("Access-Control-Allow-Origin", "*");
         const vp: any = req.body.vp; // assuming any type for now
         const resource: string = req.body.resource;
-        console.log("Resource: " + resource);
+
         if (!resources[resource]) {
             return res.status(400).send("Invalid resource");
         }
-        const begin = Date.now();
+
+        let begin = Date.now();
         const verified = await verifyPresentation(vp);
         if (!verified) {
             console.log("VP not verified");
             return res.status(400).send("Invalid VP");
         }
+        let end = Date.now();
+        let time = end - begin;
+        updateData(time, "measurements/pip-verification.json");
+
+        begin = Date.now();
         const request = buildRequest(resource, vp);
-        const end = Date.now();
-        const time = end - begin;
-        console.log("PIP executed in " + time + "ms");
-        updateData(time, "measurements/pip.json");
+        end = Date.now();
+        time = end - begin;
+        updateData(time, "measurements/pip-extraction.json");
 
-        const begin2 = Date.now();
+        begin = Date.now();
         const response = await axios.post('http://localhost:8080/evaluate', request, { headers: { 'Content-Type': 'application/json' } });
-        const end2 = Date.now();
-        const time2 = end2 - begin2;
-        console.log("PDP executed in " + time2 + "ms");
-        updateData(time2, "measurements/pdp.json");
-
+        end = Date.now();
+        time = end - begin;
+        updateData(time, "measurements/pdp.json");
+        const end0 = Date.now();
+        const time0 = end0 - begin0;
+        console.log("Time: " + time0 + "ms");
+        updateData(time0, "measurements/global.json");
         return res.status(200).send({ message: "VP verified", authorized: response.data });
     });
 
