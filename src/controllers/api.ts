@@ -43,7 +43,7 @@ export const loadApiEndpoints = (app: Application): void => {
         res.header("Access-Control-Allow-Origin", "*");
         const vp: any = req.body.vp; // assuming any type for now
         const resource: string = req.body.resource;
-
+        console.log("Resource: " + resource);
         if (!resources[resource]) {
             return res.status(400).send("Invalid resource");
         }
