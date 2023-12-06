@@ -27,7 +27,17 @@ function updateData(val: any, fileName:string){
     fs.writeFileSync(fileName, JSON.stringify(json), 'utf8');
 }
 
+function clearData(fileName:string){
+    const data = fs.readFileSync(fileName, 'utf8');
+    const json = JSON.parse(data.toString());
+    json.measurements = [];
+    fs.writeFileSync(fileName, JSON.stringify(json), 'utf8');
+}
+
 export const loadApiEndpoints = (app: Application): void => {
+
+    clearData("measurements/pip.json");
+    clearData("measurements/pdp.json");
 
     app.post("/send", async (req: Request, res: Response) => {
         res.header("Access-Control-Allow-Origin", "*");

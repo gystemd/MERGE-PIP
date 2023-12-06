@@ -1,0 +1,26 @@
+
+{
+  "type": [
+    "VerifiableCredential",
+    "MascaUserCredential"
+  ],
+  "credentialSubject": {
+    "id": "did:ethr:0x1:0x8aadd53dc222d0490f0804a31792a635922a43a8",
+    "attribute0": "value0",
+    "attribute1": "value1",
+    "attribute2": "value2",
+    "attribute3": "value3",
+    "attribute4": "value4",
+    "attribute5": "value5",
+    "attribute6": "value6",
+    "attribute7": "value7"
+  },
+  "credentialSchema": {
+    "id": "test-schema.org",
+    "type": "JsonSchemaValidator2018"
+  },
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/ld-context.json"
+  ]
+}

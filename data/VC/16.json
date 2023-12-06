@@ -1,3 +1,4 @@
+
 {
   "type": [
     "VerifiableCredential",
@@ -20,23 +21,7 @@
     "attribute12": "value12",
     "attribute13": "value13",
     "attribute14": "value14",
-    "attribute15": "value15",
-    "attribute16": "value16",
-    "attribute17": "value17",
-    "attribute18": "value18",
-    "attribute19": "value19",
-    "attribute20": "value20",
-    "attribute21": "value21",
-    "attribute22": "value22",
-    "attribute23": "value23",
-    "attribute24": "value24",
-    "attribute25": "value25",
-    "attribute26": "value26",
-    "attribute27": "value27",
-    "attribute28": "value28",
-    "attribute29": "value29",
-    "attribute30": "value30",
-    "attribute31": "value31"
+    "attribute15": "value15"
   },
   "credentialSchema": {
     "id": "test-schema.org",
