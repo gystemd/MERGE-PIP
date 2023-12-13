@@ -26,4 +26,5 @@ yarn-error.log*
 test-run-*
 artillery-tests/output/*
 plot.png
-data/measuremements/**
+measurements/*
+figures/*

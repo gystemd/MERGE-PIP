@@ -21,7 +21,7 @@ export const agent = createAgent<IResolver>({
             resolver: new Resolver({
                 ...ethrDidResolver(providerConfig),
                 ...webDidResolver(),
-            }),
+            }, { cache: true }),
         }),
         new CredentialPlugin(),
         new CredentialIssuerEIP712()

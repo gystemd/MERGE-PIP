@@ -19,64 +19,35 @@ function buildRequest(resource: string, vp: any) {
     return request;
 }
 
-function updateData(val: any, fileName:string){
-    const data = fs.readFileSync(fileName, 'utf8');
-    const json = JSON.parse(data.toString());
-    const array_measurements = json.measurements;
-    array_measurements.push(val);
-    fs.writeFileSync(fileName, JSON.stringify(json), 'utf8');
-}
-
-function clearData(fileName:string){
-    const data = fs.readFileSync(fileName, 'utf8');
-    const json = JSON.parse(data.toString());
-    json.measurements = [];
-    fs.writeFileSync(fileName, JSON.stringify(json), 'utf8');
-}
-
 export const loadApiEndpoints = (app: Application): void => {
-
-    clearData("measurements/pdp.json");
-    clearData("measurements/pip-verification.json");
-    clearData("measurements/pip-extraction.json");
-    clearData("measurements/global.json");
-
     app.post("/send", async (req: Request, res: Response) => {
-        const begin0 = Date.now();
 
         res.header("Access-Control-Allow-Origin", "*");
         const vp: any = req.body.vp; // assuming any type for now
         const resource: string = req.body.resource;
-
+        console.log("Resource: " + resource);
         if (!resources[resource]) {
             return res.status(400).send("Invalid resource");
         }
 
-        let begin = Date.now();
         const verified = await verifyPresentation(vp);
         if (!verified) {
             console.log("VP not verified");
             return res.status(400).send("Invalid VP");
         }
+
+        let begin = Date.now();
+        const request = buildRequest(resource, vp);
         let end = Date.now();
         let time = end - begin;
-        updateData(time, "measurements/pip-verification.json");
-
-        begin = Date.now();
-        const request = buildRequest(resource, vp);
-        end = Date.now();
-        time = end - begin;
-        updateData(time, "measurements/pip-extraction.json");
+        fs.appendFileSync("measurements/pip-extraction.txt", time + '\n', 'utf8');
 
         begin = Date.now();
         const response = await axios.post('http://localhost:8080/evaluate', request, { headers: { 'Content-Type': 'application/json' } });
         end = Date.now();
         time = end - begin;
-        updateData(time, "measurements/pdp.json");
-        const end0 = Date.now();
-        const time0 = end0 - begin0;
-        console.log("Time: " + time0 + "ms");
-        updateData(time0, "measurements/global.json");
+        fs.appendFileSync("measurements/pdp.txt", time + '\n', 'utf8');
+
         return res.status(200).send({ message: "VP verified", authorized: response.data });
     });
 
