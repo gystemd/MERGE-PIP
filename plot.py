@@ -41,4 +41,30 @@ plt.title('global execution time')
 plt.xticks(x, labels)
 plt.legend()
 
-plt.savefig('PIP.png')
+plt.savefig('figures/chart.png')
+
+plt.clf()
+
+# draw a pie chart for every number of attributes
+for file in files:
+    extraction_file_path = f'measurements/{file}/pip-extraction-{file}.txt'
+    mean_extraction_time = calculate_mean_time(extraction_file_path)
+
+    verification_file_path = f'measurements/{file}/pip-verification-{file}.txt'
+    mean_verification_time = calculate_mean_time(verification_file_path)
+
+    pdp_file_path = f'measurements/{file}/pdp-{file}.txt'
+    mean_pdp_time = calculate_mean_time(pdp_file_path)
+
+    did_file_path = f'measurements/{file}/DID-{file}.txt'
+    mean_did_time = calculate_mean_time(did_file_path)
+
+    labels = ['DID resolution', 'verification', 'attributes extraction', 'PDP']
+    sizes = [mean_did_time, mean_verification_time, mean_extraction_time, mean_pdp_time]
+    percentages = [s/sum(sizes)*100 for s in sizes]
+    legend_labels = ['{0} - {1:1.1f} %'.format(i,j) for i,j in zip(labels, percentages)]
+    plt.pie(sizes, startangle=90)
+    plt.legend( legend_labels, bbox_to_anchor=(-0.40, 1),loc='upper left')
+    plt.title(f'Execution time for {file} attributes')
+    plt.savefig(f'figures/pie-{file}.png')
+    plt.clf()
