@@ -14,14 +14,13 @@ const providerConfig = {
     registry: process.env.REGISTRY
 }
 
-const INFURA_PROJECT_ID = 'https://polygon-mumbai.infura.io/v3/f21e9e85e99c4a7db5594c7ffbfcf549'
 export const agent = createAgent<IResolver>({
     plugins: [
         new DIDResolverPlugin({
             resolver: new Resolver({
                 ...ethrDidResolver(providerConfig),
-                ...webDidResolver(),
-            } ),
+                // ...webDidResolver(),
+            }, { cache: true }),
         }),
         new CredentialPlugin(),
         new CredentialIssuerEIP712()

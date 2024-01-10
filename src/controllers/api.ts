@@ -25,7 +25,6 @@ export const loadApiEndpoints = (app: Application): void => {
         res.header("Access-Control-Allow-Origin", "*");
         const vp: any = req.body.vp; // assuming any type for now
         const resource: string = req.body.resource;
-        console.log("Resource: " + resource);
         if (!resources[resource]) {
             return res.status(400).send("Invalid resource");
         }
@@ -39,16 +38,20 @@ export const loadApiEndpoints = (app: Application): void => {
         let begin = Date.now();
         const request = buildRequest(resource, vp);
         let end = Date.now();
-        let time = end - begin;
-        fs.appendFileSync("measurements/pip-extraction.txt", time + '\n', 'utf8');
+        let attribute_time = end - begin;
 
         begin = Date.now();
         const response = await axios.post('http://localhost:8080/evaluate', request, { headers: { 'Content-Type': 'application/json' } });
         end = Date.now();
-        time = end - begin;
-        fs.appendFileSync("measurements/pdp.txt", time + '\n', 'utf8');
+        let pdp_time = end - begin;
 
-        return res.status(200).send({ message: "VP verified", authorized: response.data });
+        let measurements = {
+            attribute_time: attribute_time,
+            pdp_time: pdp_time,
+            verification_time: process.env.VERIFICATION_TIME,
+            did_time: process.env.DID_TIME
+        };
+        return res.status(200).send({ message: "VP verified", authorized: response.data, measurements: measurements });
     });
 
     app.post("/verify", async (req: Request, res: Response) => {
