@@ -9,6 +9,8 @@ import app from "../src/app";
 import fs from "fs";
 
 test("load test", async () => {
+    const num_requests = 50;
+
     const resource_4 = "resource4";
     const payload_4 = {
         vp: presentation_4,
@@ -39,7 +41,6 @@ test("load test", async () => {
         resource: resource_64
     };
 
-    const num_requests = 60;
     let measurements_4: any = [];
     let measurements_8: any = [];
     let measurements_16: any = [];
@@ -47,6 +48,7 @@ test("load test", async () => {
     let measurements_64: any = [];
 
     for (let i = 0; i < num_requests; i++) {
+        console.log("Request " + i);
         const result_4 = await request(app).post("/send").send(payload_4);
         measurements_4.push(result_4.body.measurements);
 

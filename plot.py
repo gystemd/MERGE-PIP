@@ -58,6 +58,7 @@ for file in files:
 
     did_file_path = f'measurements/{file}/did.txt'
     mean_did_time = calculate_mean_time(did_file_path)
+    print("mean_did_time for ", file, " is ", mean_did_time)
 
     labels = ['DID resolution', 'verification', 'attributes extraction', 'PDP']
     sizes = [mean_did_time, mean_verification_time, mean_extraction_time, mean_pdp_time]
