@@ -8,6 +8,7 @@ import { presentation_8 } from "./VPS/8";
 import { presentation_16 } from "./VPS/16";
 import { presentation_32 } from "./VPS/32";
 import { presentation_64 } from "./VPS/64";
+import { multi_credential_presentation } from "./VPS/multi-credential";
 
 describe("test access to research-paper-computer-science resource", () => {
     it("should return 200", async () => {
@@ -119,6 +120,20 @@ describe("test access to a resource with 64 attributes", () => {
         const resource = "resource64";
         const payload = {
             vp: presentation_64,
+            resource: resource
+        };
+        const result = await request(app).post("/send").send(payload);
+        expect(result.status).toBe(200);
+        expect(result.body.authorized).toBe(true);
+    })
+});
+
+
+describe("test access to a resource with multiple credentials", () => {
+    it("should return 200", async () => {
+        const resource = "resource4-multiple";
+        const payload = {
+            vp: multi_credential_presentation,
             resource: resource
         };
         const result = await request(app).post("/send").send(payload);

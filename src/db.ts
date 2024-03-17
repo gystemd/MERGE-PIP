@@ -5,6 +5,41 @@ type resourcesList = Record<string, attributesList>;
 export const resources: resourcesList =
 
 {
+    "resource-multiple-1": {
+        "test-schema.org": {
+            "#0": [{ attribute: "credentialSubject.attribute0", dataType: "http://www.w3.org/2001/XMLSchema#string", value: "value0" }],
+        }
+    },
+    "resource-multiple-2": {
+        "test-schema.org": {
+            "#0": [{ attribute: "credentialSubject.attribute0", dataType: "http://www.w3.org/2001/XMLSchema#string", value: "value0" }],
+            "#1": [{ attribute: "credentialSubject.attribute1", dataType: "http://www.w3.org/2001/XMLSchema#string", value: "value1" }],
+        }
+    },
+    "resource-multiple-3": {
+        "test-schema.org": {
+            "#0": [{ attribute: "credentialSubject.attribute0", dataType: "http://www.w3.org/2001/XMLSchema#string", value: "value0" }],
+            "#1": [{ attribute: "credentialSubject.attribute1", dataType: "http://www.w3.org/2001/XMLSchema#string", value: "value1" }],
+            "#2": [{ attribute: "credentialSubject.attribute2", dataType: "http://www.w3.org/2001/XMLSchema#string", value: "value2" }],
+        }
+    },
+    "resource-multiple-4": {
+        "test-schema.org": {
+            "#0": [{ attribute: "credentialSubject.attribute0", dataType: "http://www.w3.org/2001/XMLSchema#string", value: "value0" }],
+            "#1": [{ attribute: "credentialSubject.attribute1", dataType: "http://www.w3.org/2001/XMLSchema#string", value: "value1" }],
+            "#2": [{ attribute: "credentialSubject.attribute2", dataType: "http://www.w3.org/2001/XMLSchema#string", value: "value2" }],
+            "#3": [{ attribute: "credentialSubject.attribute3", dataType: "http://www.w3.org/2001/XMLSchema#string", value: "value3" }],
+        }
+    },
+    "resource-multiple-5": {
+        "test-schema.org": {
+            "#0": [{ attribute: "credentialSubject.attribute0", dataType: "http://www.w3.org/2001/XMLSchema#string", value: "value0" }],
+            "#1": [{ attribute: "credentialSubject.attribute1", dataType: "http://www.w3.org/2001/XMLSchema#string", value: "value1" }],
+            "#2": [{ attribute: "credentialSubject.attribute2", dataType: "http://www.w3.org/2001/XMLSchema#string", value: "value2" }],
+            "#3": [{ attribute: "credentialSubject.attribute3", dataType: "http://www.w3.org/2001/XMLSchema#string", value: "value3" }],
+            "#4": [{ attribute: "credentialSubject.attribute4", dataType: "http://www.w3.org/2001/XMLSchema#string", value: "value4" }]
+        }
+    },
     "research-paper-computer-science": {
         "https://api.npoint.io/92e56cd3a26b31bfcd14":
         {

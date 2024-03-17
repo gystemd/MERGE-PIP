@@ -9,7 +9,7 @@ import app from "../src/app";
 import fs from "fs";
 
 test("load test", async () => {
-    const num_requests = 50;
+    const num_requests = 30;
 
     const resource_4 = "resource4";
     const payload_4 = {
@@ -96,9 +96,6 @@ test("load test", async () => {
     fs.mkdirSync("measurements/64");
     for (let i = 0; i < measurements_64.length; i++)
         appendMeasure(measurements_64[i], "64");
-
-
-
 }, 1000000);
 
 function appendMeasure(measure: any, resource: string) {

@@ -1,0 +1,138 @@
+{
+    "type": [
+        "VerifiableCredential",
+        "MascaUserCredential"
+    ],
+    "credentialSubject": {
+        "id": "did:ethr:0x1:0x8aadd53dc222d0490f0804a31792a635922a43a8",
+        "attribute0": "value0",
+        "attribute1": "value1",
+        "attribute2": "value2",
+        "attribute3": "value3",
+        "attribute4": "value4"
+    },
+    "credentialSchema": {
+        "id": "test-schema.org",
+        "type": "JsonSchemaValidator2018"
+    },
+    "@context": [
+        "https://www.w3.org/2018/credentials/v1"
+    ],
+    "issuer": "did:ethr:0x1:0x5f572a3a7a950f7a3772652af288f308fa8fc658",
+    "issuanceDate": "2024-01-12T17:17:30.854Z",
+    "proof": {
+        "verificationMethod": "did:ethr:0x1:0x5f572a3a7a950f7a3772652af288f308fa8fc658#controller",
+        "created": "2024-01-12T17:17:30.854Z",
+        "proofPurpose": "assertionMethod",
+        "type": "EthereumEip712Signature2021",
+        "proofValue": "0x6bc5f70203a275228b02c3c13726f221aaad7b552b01aeabf5da9280fc8e5e7a19328a0e5824fa9618fb0140029f20c581a9c3b4f780b536371cf00aa09bd9a21b",
+        "eip712": {
+            "domain": {
+                "chainId": 1,
+                "name": "VerifiableCredential",
+                "version": "1"
+            },
+            "types": {
+                "EIP712Domain": [
+                    {
+                        "name": "name",
+                        "type": "string"
+                    },
+                    {
+                        "name": "version",
+                        "type": "string"
+                    },
+                    {
+                        "name": "chainId",
+                        "type": "uint256"
+                    }
+                ],
+                "CredentialSchema": [
+                    {
+                        "name": "id",
+                        "type": "string"
+                    },
+                    {
+                        "name": "type",
+                        "type": "string"
+                    }
+                ],
+                "CredentialSubject": [
+                    {
+                        "name": "attribute0",
+                        "type": "string"
+                    },
+                    {
+                        "name": "attribute1",
+                        "type": "string"
+                    },
+                    {
+                        "name": "attribute2",
+                        "type": "string"
+                    },
+                    {
+                        "name": "attribute3",
+                        "type": "string"
+                    },
+                    {
+                        "name": "attribute4",
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "type": "string"
+                    }
+                ],
+                "Proof": [
+                    {
+                        "name": "created",
+                        "type": "string"
+                    },
+                    {
+                        "name": "proofPurpose",
+                        "type": "string"
+                    },
+                    {
+                        "name": "type",
+                        "type": "string"
+                    },
+                    {
+                        "name": "verificationMethod",
+                        "type": "string"
+                    }
+                ],
+                "VerifiableCredential": [
+                    {
+                        "name": "@context",
+                        "type": "string[]"
+                    },
+                    {
+                        "name": "credentialSchema",
+                        "type": "CredentialSchema"
+                    },
+                    {
+                        "name": "credentialSubject",
+                        "type": "CredentialSubject"
+                    },
+                    {
+                        "name": "issuanceDate",
+                        "type": "string"
+                    },
+                    {
+                        "name": "issuer",
+                        "type": "string"
+                    },
+                    {
+                        "name": "proof",
+                        "type": "Proof"
+                    },
+                    {
+                        "name": "type",
+                        "type": "string[]"
+                    }
+                ]
+            },
+            "primaryType": "VerifiableCredential"
+        }
+    }
+}

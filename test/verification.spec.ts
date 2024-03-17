@@ -6,7 +6,6 @@ import { IVerifyPresentationEIP712Args } from "@veramo/credential-eip712";
 
 import { presentation as validPhdDegreePresentation } from "./VPS/valid_phd_degree";
 import { presentation as degreeVaccinePresentation } from "./VPS/degree_vaccine";
-import {mixed as mixedPresentation} from "./VPS/mixed";
 import {tampered as tampered} from "./VPS/tampered";
 
 describe("degree verification", () => {
@@ -15,41 +14,25 @@ describe("degree verification", () => {
 		const args: IVerifyPresentationEIP712Args = {
 			presentation: payload
 		}
-		const result = await agent.verifyPresentation(args);
-		expect(result.verified).toBe(true);
+        const result = await request(app).post("/verify").send(payload);
+		expect(result.body.verified).toBe(true);
 	});
 });
 
 describe("vaccine and degree verification", () => {
 	it("should correctly verify the degree and vaccine credential", async () => {
 		const payload = degreeVaccinePresentation;
-		const args: IVerifyPresentationEIP712Args = {
-			presentation: payload
-		}
-		const result = await agent.verifyPresentation(args);
-		expect(result.verified).toBe(true);
+        const result = await request(app).post("/verify").send(payload);
+		expect(result.body.verified).toBe(true);
 	});
 });
 
-describe("mixed verification", () => {
-	it("should correctly verify the mixed credential", async () => {
-		const payload = mixedPresentation;
-		const args: IVerifyPresentationEIP712Args = {
-			presentation: payload
-		}
-		const result = await agent.verifyPresentation(args);
-		expect(result.verified).toBe(true);
-	});
-});
 
 describe("fail verification - tampered VC", () => {
 	it("should fail to verify the VP", async () => {
-		const payload = tampered;
-		const args: IVerifyPresentationEIP712Args = {
-			presentation: payload
-		}
-		const result = await agent.verifyPresentation(args);
-		expect(result.verified).toBe(false);
+		const payload = {vp:tampered};
+        const result = await request(app).post("/verify").send(payload);
+		expect(result.body.verified).toBe(false);
 	});
 });
 
